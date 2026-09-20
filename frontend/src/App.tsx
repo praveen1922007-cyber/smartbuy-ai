@@ -12,7 +12,7 @@ import { NotFoundPage } from './pages/NotFoundPage';
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={window.location.hostname.endsWith('github.io') ? '/smartbuy-ai' : undefined}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
