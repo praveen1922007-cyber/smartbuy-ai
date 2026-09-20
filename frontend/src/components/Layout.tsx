@@ -61,11 +61,7 @@ export const Layout = ({ children }: LayoutProps) => {
                 <LogOut size={16} />
                 <span className="hidden sm:inline">Logout</span>
               </button>
-            ) : (
-              <Link to="/login" className="rounded-full bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700">
-                Sign in
-              </Link>
-            )}
+            ) : null}
           </div>
         </div>
       </header>

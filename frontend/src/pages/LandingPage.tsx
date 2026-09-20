@@ -73,7 +73,7 @@ export const LandingPage = () => {
           </p>
           <div className="flex flex-col items-center justify-center gap-3 pt-2 sm:flex-row">
             <Link
-              to="/register"
+              to="/dashboard"
               className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-all hover:bg-blue-700 hover:shadow-lg"
             >
               Get started <ArrowRight size={18} />
