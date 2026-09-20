@@ -1,0 +1,75 @@
+name: Frontend Build & Deploy Static to EC2
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    name: Build frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: |
+          npm ci
+
+      - name: Build
+        working-directory: ./frontend
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
+        run: |
+          npm run build
+
+      - name: Upload artifact (frontend-dist)
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend/dist
+
+  deploy-to-ec2:
+    name: SCP built static to EC2 (optional)
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ secrets.EC2_HOST && secrets.EC2_SSH_KEY }}
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-dist
+
+      - name: Copy files to EC2 (via scp)
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: ${{ secrets.EC2_SSH_PORT || 22 }}
+          source: "dist/*"
+          target: "/opt/smartbuy/frontend/"
+
+      - name: Restart SmartBuy service on EC2
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: ${{ secrets.EC2_SSH_PORT || 22 }}
+          script: |
+            cd /opt/smartbuy || exit 0
+            if systemctl is-active --quiet smartbuy.service; then
+              sudo systemctl restart smartbuy.service || true
+            else
+              docker compose -f docker-compose.prod.yml up -d --remove-orphans || true
+            fi

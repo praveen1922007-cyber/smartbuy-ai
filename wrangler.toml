@@ -1,0 +1,6 @@
+name = "smartbuy-ai"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = "frontend/dist"
+
+[vars]
+# Set VITE_API_URL in the Cloudflare Pages dashboard for your backend URL.
