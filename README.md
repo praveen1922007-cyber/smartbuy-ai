@@ -39,6 +39,12 @@ cd backend
 npm run test:integration
 ```
 
+Seed the Coimbatore demo catalog (20 mapped store locations and 1,000 products):
+```bash
+cd backend
+npm run seed:coimbatore
+```
+
 Run frontend unit tests:
 ```bash
 cd frontend

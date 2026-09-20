@@ -1,8 +1,8 @@
-import bcrypt from 'bcryptjs';
+const bcrypt = require('bcryptjs');
 
-export const users = [];
+const users = [];
 
-export const stores = [
+const stores = [
   {
     id: 'store-1',
     name: 'ABC Super Market',
@@ -44,7 +44,7 @@ export const stores = [
   },
 ];
 
-export const products = [
+const products = [
   {
     id: 'prod-1',
     name: 'Milk',
@@ -135,22 +135,22 @@ export const products = [
   },
 ];
 
-export const wishlist = [];
-export const orders = [];
-export const reviews = [
+const wishlist = [];
+const orders = [];
+const reviews = [
   { id: 'rev-1', storeId: 'store-1', user: 'Arun', text: 'Great quality and fast service.', status: 'genuine' },
   { id: 'rev-2', storeId: 'store-2', user: 'Meera', text: 'The deal felt repetitive and promotional.', status: 'suspicious' },
 ];
 
-export const offers = [
+const offers = [
   { id: 'offer-1', title: 'Weekend Grocery Deal', discount: 10, validUntil: '2026-07-31' },
 ];
 
-export const notifications = [
+const notifications = [
   { id: 'notif-1', title: 'Price alert', message: 'Milk dropped by ₹5 near you.', read: false },
 ];
 
-export const seedDemoUser = () => {
+const seedDemoUser = () => {
   if (users.length === 0) {
     users.push({
       id: 'user-1',
@@ -163,3 +163,15 @@ export const seedDemoUser = () => {
 };
 
 seedDemoUser();
+
+module.exports = {
+  users,
+  stores,
+  products,
+  wishlist,
+  orders,
+  reviews,
+  offers,
+  notifications,
+  seedDemoUser,
+};

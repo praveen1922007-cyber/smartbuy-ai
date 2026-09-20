@@ -13,6 +13,7 @@
     "lint": "eslint . --ext .ts",
     "format": "prettier --write \"src/**/*.{ts,js,json,md}\"",
     "seed:demo": "ts-node -r tsconfig-paths/register src/scripts/seedDemo.ts",
+    "seed:coimbatore": "ts-node -r tsconfig-paths/register src/scripts/seedDemo.ts",
     "test": "echo \"No tests configured yet\" && exit 0",
     "test:integration": "ts-node-dev --respawn --transpile-only src/tests/marketplace.persistence.test.ts"
   },
