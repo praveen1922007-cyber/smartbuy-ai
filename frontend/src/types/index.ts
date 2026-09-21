@@ -15,6 +15,7 @@ export interface Product {
   stock: number;
   storeId: string;
   imageUrl?: string;
+  images?: string[];
 }
 
 export interface Store {
