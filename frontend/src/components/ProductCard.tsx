@@ -5,15 +5,24 @@ type ProductCardProps = {
   product: Product;
 };
 
+const fallbackImage = 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=900&q=80';
+
 export const ProductCard = ({ product }: ProductCardProps) => {
+  const imageUrl = product.imageUrl || product.images?.[0] || fallbackImage;
+
   return (
     <div className="rounded-2xl border border-white/10 bg-slate-900/70 p-5 shadow-2xl shadow-blue-950/20">
       <div className="relative overflow-hidden rounded-3xl bg-slate-950/70">
-        {product.imageUrl ? (
-          <img src={product.imageUrl} alt={product.name} className="h-44 w-full object-cover" />
-        ) : (
-          <div className="flex h-44 items-center justify-center bg-slate-900 text-slate-500">No image</div>
-        )}
+        <img
+          src={imageUrl}
+          alt={product.name}
+          className="h-44 w-full object-cover"
+          loading="lazy"
+          onError={(event) => {
+            event.currentTarget.onerror = null;
+            event.currentTarget.src = fallbackImage;
+          }}
+        />
       </div>
       <div className="mt-4 flex items-center justify-between">
         <h3 className="text-lg font-semibold text-white">{product.name}</h3>
